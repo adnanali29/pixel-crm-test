@@ -1,0 +1,170 @@
+{
+  "services": [
+    {
+      "id": "1",
+      "name": "Web Development",
+      "hsn_code": "998313",
+      "subCategories": [
+        {
+          "id": "s1",
+          "name": "Frontend"
+        },
+        {
+          "id": "s2",
+          "name": "Backend"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Graphic Design",
+      "hsn_code": "998391",
+      "subCategories": [
+        {
+          "id": "s3",
+          "name": "Logo Design"
+        },
+        {
+          "id": "s4",
+          "name": "Branding"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "SEO Services",
+      "hsn_code": "998315",
+      "subCategories": [
+        {
+          "id": "s5",
+          "name": "On-page SEO"
+        },
+        {
+          "id": "s6",
+          "name": "Backlink Building"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Content Marketing",
+      "hsn_code": "998316",
+      "subCategories": [
+        {
+          "id": "s7",
+          "name": "Blog Writing"
+        },
+        {
+          "id": "s8",
+          "name": "Copywriting"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Digital Strategy",
+      "hsn_code": "998317",
+      "subCategories": [
+        {
+          "id": "s9",
+          "name": "Ad Management"
+        },
+        {
+          "id": "s10",
+          "name": "Market Research"
+        }
+      ]
+    }
+  ],
+  "enquiries": [
+    {
+      "id": "d1b88e31-e33b-4175-92ae-94b3eed008b5",
+      "date": "2026-04-01",
+      "contact_name": "ANUP dasdOJHAasdasdasd",
+      "company_name": "sadasda",
+      "mobile_number": "09309109229",
+      "website": "",
+      "email": "anup2001ojha@gmail.com",
+      "company_address": "SURRENDRA GADH SEMINARRY HILLS NEAR RADHA KRISHNA TEMPLE TILAK KIRANA STORE NAGPUR",
+      "gst_number": "",
+      "gst_slab": 18,
+      "tax_type": "Exclusive",
+      "country": "India",
+      "state": "Manipur",
+      "description": "",
+      "status": "active",
+      "converted_to_quote": false,
+      "created_at": "2026-04-01T17:45:25.862Z",
+      "services": [
+        {
+          "id": "cdd5e74d-ec8a-492c-9551-810a06fe0873",
+          "enquiry_id": "d1b88e31-e33b-4175-92ae-94b3eed008b5",
+          "service_id": "1",
+          "sub_service_id": "s2"
+        }
+      ]
+    }
+  ],
+  "quotations": [],
+  "orders": [],
+  "marketResearch": [],
+  "settings": {
+    "quotePdfSettings": {
+      "heading": "QUOTATION",
+      "companyName": "Pixel Web Pages",
+      "phone": "",
+      "email": "",
+      "address": "",
+      "website": "www.pixelwebpages.com",
+      "logoUrl": "",
+      "gstNumber": "",
+      "companyState": "",
+      "country": "India",
+      "state": ""
+    },
+    "poPdfSettings": {
+      "heading": "PURCHASE ORDER",
+      "companyName": "Pixel Web Pages",
+      "phone": "",
+      "email": "",
+      "address": "",
+      "website": "www.pixelwebpages.com",
+      "logoUrl": "",
+      "gstNumber": "",
+      "companyState": "",
+      "country": "India",
+      "state": ""
+    },
+    "piPdfSettings": {
+      "heading": "PROFORMA INVOICE",
+      "companyName": "Pixel Web Pages",
+      "phone": "",
+      "email": "",
+      "address": "",
+      "website": "www.pixelwebpages.com",
+      "logoUrl": "",
+      "gstNumber": "",
+      "companyState": "",
+      "country": "India",
+      "state": "",
+      "bankName": "",
+      "accountNo": "",
+      "ifsc": "",
+      "branch": "",
+      "upiId": ""
+    },
+    "taxInvoicePdfSettings": {
+      "heading": "TAX INVOICE",
+      "companyName": "Pixel Web Pages",
+      "phone": "",
+      "email": "",
+      "address": "",
+      "website": "www.pixelwebpages.com",
+      "logoUrl": "",
+      "gstNumber": "",
+      "companyState": "",
+      "country": "India",
+      "state": ""
+    }
+  }
+}

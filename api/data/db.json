@@ -1,0 +1,111 @@
+{
+  "password": "Abc@12345",
+  "services": [
+    {
+      "id": "12ff20bd-0c6d-4cfa-97dc-5cdc98383853",
+      "name": "Development",
+      "hsn_code": "",
+      "created_at": "2026-03-30T20:10:06.528Z",
+      "subCategories": [
+        {
+          "id": "e86dd36c-55a8-41b7-b169-8cf9db1abd4c",
+          "service_id": "12ff20bd-0c6d-4cfa-97dc-5cdc98383853",
+          "name": "Frontend",
+          "created_at": "2026-04-01T17:35:19.552Z"
+        }
+      ]
+    }
+  ],
+  "enquiries": [
+    {
+      "id": "c8f1e7ff-4765-4330-b0db-246ae0fa3d7d",
+      "date": "2026-03-30",
+      "contact_name": "ANUP ANIL OJHA",
+      "company_name": "asdasd",
+      "mobile_number": "09309109229",
+      "website": "",
+      "email": "anup2001ojha@gmail.com",
+      "company_address": "SURRENDRA GADH SEMINARRY HILLS NEAR RADHA KRISHNA TEMPLE TILAK KIRANA STORE NAGPUR",
+      "gst_number": "",
+      "gst_slab": 18,
+      "tax_type": "Exclusive",
+      "country": "India",
+      "state": "Maharashtra",
+      "description": "",
+      "status": "dead",
+      "converted_to_quote": false,
+      "created_at": "2026-03-30T20:10:19.685Z",
+      "services": [
+        {
+          "id": "1bba53ab-2772-4569-95e2-177299924b5e",
+          "enquiry_id": "c8f1e7ff-4765-4330-b0db-246ae0fa3d7d",
+          "service_id": "12ff20bd-0c6d-4cfa-97dc-5cdc98383853",
+          "sub_service_id": null
+        }
+      ]
+    }
+  ],
+  "quotations": [],
+  "orders": [],
+  "marketResearch": [],
+  "settings": {
+    "password": "Abc@12345",
+    "quotePdfSettings": {
+      "heading": "QUOTATION",
+      "companyName": "Pixel Web Pages",
+      "phone": "",
+      "email": "",
+      "address": "",
+      "website": "www.pixelwebpages.com",
+      "logoUrl": "",
+      "gstNumber": "",
+      "companyState": "",
+      "country": "India",
+      "state": ""
+    },
+    "poPdfSettings": {
+      "heading": "PURCHASE ORDER",
+      "companyName": "Pixel Web Pages",
+      "phone": "",
+      "email": "",
+      "address": "",
+      "website": "www.pixelwebpages.com",
+      "logoUrl": "",
+      "gstNumber": "",
+      "companyState": "",
+      "country": "India",
+      "state": ""
+    },
+    "piPdfSettings": {
+      "heading": "PROFORMA INVOICE",
+      "companyName": "Pixel Web Pages",
+      "phone": "",
+      "email": "",
+      "address": "",
+      "website": "www.pixelwebpages.com",
+      "logoUrl": "",
+      "gstNumber": "",
+      "companyState": "",
+      "country": "India",
+      "state": "",
+      "bankName": "",
+      "accountNo": "",
+      "ifsc": "",
+      "branch": "",
+      "upiId": ""
+    },
+    "taxInvoicePdfSettings": {
+      "heading": "TAX INVOICE",
+      "companyName": "Pixel Web Pages",
+      "phone": "",
+      "email": "",
+      "address": "",
+      "website": "www.pixelwebpages.com",
+      "logoUrl": "",
+      "gstNumber": "",
+      "companyState": "",
+      "country": "India",
+      "state": ""
+    }
+  }
+}
