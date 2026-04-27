@@ -27,6 +27,7 @@ interface AppContextType {
   updateQuotation: (id: string, data: Partial<Quotation>) => Promise<void>;
   deadQuotation: (id: string) => Promise<void>;
   restoreQuotation: (id: string) => Promise<void>;
+  deleteQuotation: (id: string) => Promise<void>;
 
   orders: Order[];
   addOrder: (quotationId: string, poFile?: string, poFileName?: string) => Promise<Order>;
@@ -625,6 +626,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const restoreQuotation = async (id: string) => {
     await updateQuotation(id, { status: 'active' });
   };
++
++  const deleteQuotation = async (id: string) => {
++    await api.deleteQuotation(id);
++    setState(prev => ({ ...prev, quotations: prev.quotations.filter(q => q.id !== id) }));
++  };
 
   // ── Orders ─────────────────────────────────────────────────────────────────
   const addOrder = async (quotationId: string, poFile?: string, poFileName?: string): Promise<Order> => {
@@ -1030,7 +1036,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     enquiries: state.enquiries,
     addEnquiry, updateEnquiry, deadEnquiry, restoreEnquiry, deleteEnquiry,
     quotations: state.quotations,
-    addQuotation, updateQuotation, deadQuotation, restoreQuotation,
+    addQuotation, updateQuotation, deadQuotation, restoreQuotation, deleteQuotation,
     orders: state.orders,
     addOrder, updateOrder, markOrderPaid, cancelOrderServices, processRefund, deadOrder, restoreOrder, restoreOrderService, deleteOrder,
     marketResearch: state.marketResearch,

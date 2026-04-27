@@ -300,6 +300,20 @@ app.put('/api/orders/:id', (req, res) => {
   res.json({ success: true });
 });
 
+app.delete('/api/quotations/:id', (req, res) => {
+  const db = loadDB();
+  db.quotations = (db.quotations || []).filter(q => q.id !== req.params.id);
+  saveDB(db);
+  res.json({ success: true });
+});
+
+app.delete('/api/orders/:id', (req, res) => {
+  const db = loadDB();
+  db.orders = (db.orders || []).filter(o => o.id !== req.params.id);
+  saveDB(db);
+  res.json({ success: true });
+});
+
 // ── MARKET RESEARCH ───────────────────────────────────────────────────────────
 app.get('/api/market-research', (req, res) => {
   res.json(loadDB().marketResearch || []);

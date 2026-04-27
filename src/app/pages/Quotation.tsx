@@ -227,18 +227,39 @@ export default function QuotationPage() {
                           </button>
                         </>
                       ) : (
-                        <button
-                          disabled={actionId === q.id}
-                          onClick={async () => {
-                            setActionId(q.id);
-                            try { await restoreQuotation(q.id); showToast('Quotation restored'); }
-                            catch (err: any) { showToast(err.message || 'Failed', 'error'); }
-                            finally { setActionId(null); }
-                          }}
-                          className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 text-emerald-600 text-[11px] font-bold rounded-lg shadow-sm border border-emerald-100 hover:bg-emerald-100 transition-all disabled:opacity-50 uppercase tracking-wide"
-                        >
-                          {actionId === q.id ? <Loader2 size={14} className="animate-spin" /> : <RotateCcw size={14} />} Restore
-                        </button>
+                        <>
+                          <button
+                            disabled={actionId === q.id}
+                            onClick={async () => {
+                              setActionId(q.id);
+                              try { await restoreQuotation(q.id); showToast('Quotation restored'); }
+                              catch (err: any) { showToast(err.message || 'Failed', 'error'); }
+                              finally { setActionId(null); }
+                            }}
+                            className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 text-emerald-600 text-[11px] font-bold rounded-lg shadow-sm border border-emerald-100 hover:bg-emerald-100 transition-all disabled:opacity-50 uppercase tracking-wide"
+                          >
+                            {actionId === q.id ? <Loader2 size={14} className="animate-spin" /> : <RotateCcw size={14} />} Restore
+                          </button>
+                          <button
+                            disabled={actionId === q.id}
+                            onClick={async () => {
+                              if (window.confirm('Permanently delete this quotation?')) {
+                                setActionId(q.id);
+                                try {
+                                  await deleteQuotation(q.id);
+                                  showToast('Quotation permanently deleted', 'info');
+                                } catch (err: any) {
+                                  showToast(err.message || 'Failed', 'error');
+                                } finally {
+                                  setActionId(null);
+                                }
+                              }
+                            }}
+                            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-white rounded-lg shadow-sm transition-all border border-transparent hover:border-red-100 disabled:opacity-50"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </>
                       )}
                     </div>
                   </td>

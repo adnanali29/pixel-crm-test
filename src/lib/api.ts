@@ -45,6 +45,7 @@ export const api = {
   getQuotations: () => request<any[]>('GET', '/quotations'),
   createQuotation: (data: any) => request<any>('POST', '/quotations', data),
   updateQuotation: (id: string, data: any) => request<void>('PUT', `/quotations/${id}`, data),
+  deleteQuotation: (id: string) => request<void>('DELETE', `/quotations/${id}`),
 
   // Orders
   getOrders: () => request<any[]>('GET', '/orders'),
