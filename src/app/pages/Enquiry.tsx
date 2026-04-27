@@ -474,6 +474,7 @@ export default function EnquiryPage() {
 }
 
 function EnquiryDetailBody({ enquiry, services, onEdit, onConvert }: { enquiry: Enquiry; services: any[]; onEdit: () => void; onConvert: () => void }) {
+  const navigate = useNavigate();
   const svcList = enquiry.services && enquiry.services.length > 0
     ? enquiry.services
     : enquiry.serviceId ? [{ id: '', serviceId: enquiry.serviceId, subServiceId: enquiry.subServiceId || '' }] : [];
