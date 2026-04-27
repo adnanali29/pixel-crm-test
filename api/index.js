@@ -314,6 +314,60 @@ app.delete('/api/orders/:id', (req, res) => {
   res.json({ success: true });
 });
 
+app.put('/api/order-services/cancel', (req, res) => {
+  const { ids } = req.body;
+  const db = loadDB();
+  db.orders.forEach(order => {
+    order.services.forEach(s => {
+      if (ids.includes(s.id)) s.status = 'canceled';
+    });
+  });
+  saveDB(db);
+  res.json({ success: true });
+});
+
+app.put('/api/order-services/:id/restore', (req, res) => {
+  const db = loadDB();
+  db.orders.forEach(order => {
+    const s = order.services.find(s => s.id === req.params.id);
+    if (s) s.status = 'active';
+  });
+  saveDB(db);
+  res.json({ success: true });
+});
+
+app.put('/api/orders/:orderId/restore-all-services', (req, res) => {
+  const db = loadDB();
+  const order = db.orders.find(o => o.id === req.params.orderId);
+  if (order) {
+    order.services.forEach(s => s.status = 'active');
+    saveDB(db);
+  }
+  res.json({ success: true });
+});
+
+app.post('/api/orders/:orderId/payments', (req, res) => {
+  const db = loadDB();
+  const order = db.orders.find(o => o.id === req.params.orderId);
+  if (!order) return res.status(404).json({ error: 'Order not found' });
+  const payment = { id: uid(), order_id: req.params.orderId, date: new Date().toISOString().split('T')[0], ...req.body };
+  if (!order.payments) order.payments = [];
+  order.payments.push(payment);
+  saveDB(db);
+  res.json(payment);
+});
+
+app.post('/api/orders/:orderId/refunds', (req, res) => {
+  const db = loadDB();
+  const order = db.orders.find(o => o.id === req.params.orderId);
+  if (!order) return res.status(404).json({ error: 'Order not found' });
+  const refund = { id: uid(), order_id: req.params.orderId, date: new Date().toISOString().split('T')[0], ...req.body };
+  if (!order.refund_payments) order.refund_payments = [];
+  order.refund_payments.push(refund);
+  saveDB(db);
+  res.json(refund);
+});
+
 // ── MARKET RESEARCH ───────────────────────────────────────────────────────────
 app.get('/api/market-research', (req, res) => {
   res.json(loadDB().marketResearch || []);

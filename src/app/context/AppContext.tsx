@@ -626,11 +626,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const restoreQuotation = async (id: string) => {
     await updateQuotation(id, { status: 'active' });
   };
-+
-+  const deleteQuotation = async (id: string) => {
-+    await api.deleteQuotation(id);
-+    setState(prev => ({ ...prev, quotations: prev.quotations.filter(q => q.id !== id) }));
-+  };
+
+  const deleteQuotation = async (id: string) => {
+    await api.deleteQuotation(id);
+    setState(prev => ({ ...prev, quotations: prev.quotations.filter(q => q.id !== id) }));
+  };
 
   // ── Orders ─────────────────────────────────────────────────────────────────
   const addOrder = async (quotationId: string, poFile?: string, poFileName?: string): Promise<Order> => {

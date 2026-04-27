@@ -14,7 +14,7 @@ const GST_SLABS = [0, 5, 18, 28];
 const inputCls = "w-full border border-slate-200 rounded-lg px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 bg-white transition-all";
 
 export default function QuotationPage() {
-  const { quotations, updateQuotation, deadQuotation, restoreQuotation, addOrder, services, settings, enquiries, addQuotation } = useApp();
+  const { quotations, updateQuotation, deadQuotation, restoreQuotation, deleteQuotation, addOrder, services, settings, enquiries, addQuotation } = useApp();
   const { showToast } = useToast();
   const location = useLocation();
   const [tab, setTab] = useState<'active' | 'dead'>('active');
@@ -115,10 +115,10 @@ export default function QuotationPage() {
                <Clock size={18} />
                <h2 className="font-bold uppercase tracking-tight text-sm">Pending Enquiries Queue ({activeEnquiries.length})</h2>
              </div>
-             <p className="text-[10px] font-bold text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full uppercase">First In Last Out</p>
+             <p className="text-[10px] font-bold text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full uppercase">Normal Queue (FIFO)</p>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-            {activeEnquiries.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map(enq => (
+            {activeEnquiries.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).map(enq => (
               <div key={enq.id} className="min-w-[280px] bg-white border border-amber-200 rounded-lg p-3 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div>
                   <div className="flex justify-between items-start mb-1">

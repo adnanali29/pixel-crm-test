@@ -66,30 +66,30 @@ export default function LockedPage() {
             </h1>
             
             {isSubmitted ? (
-              <div className="bg-white/95 border-4 border-black p-8 rounded-[30px] text-center animate-in fade-in zoom-in slide-in-from-bottom-4 shadow-[8px_8px_0px_#000]">
-                <div className="w-16 h-16 bg-black text-[#FACC15] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Check size={32} strokeWidth={4} />
+              <div className="bg-white/95 border-4 border-black p-6 rounded-[30px] text-center animate-in fade-in zoom-in slide-in-from-bottom-4 shadow-[8px_8px_0px_#000] max-w-md mx-auto">
+                <div className="w-12 h-12 bg-black text-[#FACC15] rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Check size={24} strokeWidth={4} />
                 </div>
-                <h2 className="text-3xl font-black mb-2 uppercase italic">Success!</h2>
-                <p className="text-lg font-bold opacity-70 mb-6">
-                  Message received. To explore the full CRM immediately, use the:
+                <h2 className="text-2xl font-black mb-1 uppercase italic">Success!</h2>
+                <p className="text-sm font-bold opacity-70 mb-4">
+                  Message received. Use this to unlock:
                 </p>
                 
-                <div className="bg-black text-[#FACC15] p-4 rounded-2xl mb-6 inline-block">
-                  <p className="text-xs uppercase tracking-widest font-black opacity-60 mb-1">Master Pass</p>
-                  <p className="text-2xl font-mono font-black tracking-tighter">PIXEL@2026</p>
+                <div className="bg-black text-[#FACC15] p-3 rounded-2xl mb-4 inline-block w-full border-2 border-black">
+                  <p className="text-[10px] uppercase tracking-widest font-black opacity-60 mb-0.5">Master Pass</p>
+                  <p className="text-2xl font-mono font-black tracking-widest select-all">PIXEL@2026</p>
                 </div>
 
-                <div className="flex flex-col items-center gap-3 text-black">
-                  <p className="font-black uppercase italic tracking-tight">Fill this below for full access</p>
-                  <ArrowDown size={32} className="animate-bounce" />
+                <div className="flex flex-col items-center gap-2 text-black mb-4">
+                  <p className="text-[11px] font-black uppercase italic tracking-tight opacity-60">Fill this below for full access</p>
+                  <ArrowDown size={24} className="animate-bounce" />
                 </div>
 
                 <button 
                   onClick={() => setIsSubmitted(false)}
-                  className="mt-4 text-xs font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity underline underline-offset-4"
+                  className="text-[10px] font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity underline underline-offset-4"
                 >
-                  Send Another Message
+                  Edit Message
                 </button>
               </div>
             ) : (
