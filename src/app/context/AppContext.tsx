@@ -133,7 +133,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   });
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(() => {
+    return localStorage.getItem('pixel_crm_unlocked') === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('pixel_crm_unlocked', isUnlocked.toString());
+  }, [isUnlocked]);
 
   // ── Data mapping helpers ───────────────────────────────────────────────────
   const mapEnqService = (s: any): EnquiryService => ({
@@ -398,26 +404,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       services = [{ id: generateId(), serviceId: data.serviceId, subServiceId: data.subServiceId || '' }];
     }
 
-    let enquiryData;
-    if (isUnlocked) {
-      enquiryData = { id: generateId(), created_at: new Date().toISOString() };
-    } else {
-      enquiryData = await api.createEnquiry({
-        contact_name: data.contactName,
-        company_name: data.companyName,
-        mobile_number: data.mobileNumber,
-        website: data.website,
-        email: data.email,
-        company_address: data.companyAddress,
-        gst_number: data.gstNumber,
-        gst_slab: data.gstSlab,
-        tax_type: data.taxType,
-        country: data.country,
-        state: data.state,
-        description: data.description,
-        services: services.map(s => ({ service_id: s.serviceId, sub_service_id: s.subServiceId || null })),
-      });
-    }
+    const enquiryData = await api.createEnquiry({
+      contact_name: data.contactName,
+      company_name: data.companyName,
+      mobile_number: data.mobileNumber,
+      website: data.website,
+      email: data.email,
+      company_address: data.companyAddress,
+      gst_number: data.gstNumber,
+      gst_slab: data.gstSlab,
+      tax_type: data.taxType,
+      country: data.country,
+      state: data.state,
+      description: data.description,
+      services: services.map(s => ({ service_id: s.serviceId, sub_service_id: s.subServiceId || null })),
+    });
 
     const enquiry: Enquiry = {
       ...data,
@@ -454,9 +455,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       }));
     }
 
-    if (!isUnlocked) {
-      await api.updateEnquiry(id, updateData);
-    }
+    await api.updateEnquiry(id, updateData);
     setState(prev => ({
       ...prev,
       enquiries: prev.enquiries.map(e => e.id === id ? { ...e, ...data } : e),
@@ -472,7 +471,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   const deleteEnquiry = async (id: string) => {
-    if (!isUnlocked) await api.deleteEnquiry(id);
+    await api.deleteEnquiry(id);
     setState(prev => ({
       ...prev,
       enquiries: prev.enquiries.filter(e => e.id !== id)
@@ -484,60 +483,36 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const gstAmount = items.reduce((sum, i) => sum + i.gstAmount * i.quantity, 0);
     const totalAmount = items.reduce((sum, i) => sum + i.totalPrice * i.quantity, 0);
 
-    let quoteData;
-    if (isUnlocked) {
-      quoteData = {
-        id: generateId(),
-        enquiry_id: enquiryId,
-        quote_number: generateQuoteNumber('QT'),
-        date: new Date().toISOString().split('T')[0],
-        company_name: enquiry.companyName,
-        contact_name: enquiry.contactName,
-        email: enquiry.email,
-        mobile_number: enquiry.mobileNumber,
-        website: enquiry.website,
-        company_address: enquiry.companyAddress,
-        gst_number: enquiry.gstNumber,
-        gst_slab: enquiry.gstSlab,
-        tax_type: enquiry.taxType,
-        country: enquiry.country,
-        state: enquiry.state,
-        status: 'active',
-        converted_to_order: false,
-        created_at: new Date().toISOString(),
-      };
-    } else {
-      quoteData = await api.createQuotation({
-        enquiry_id: enquiryId,
-        quote_number: generateQuoteNumber('QT'),
-        company_name: enquiry.companyName,
-        contact_name: enquiry.contactName,
-        email: enquiry.email,
-        mobile_number: enquiry.mobileNumber,
-        website: enquiry.website,
-        company_address: enquiry.companyAddress,
-        gst_number: enquiry.gstNumber,
-        gst_slab: enquiry.gstSlab,
-        tax_type: enquiry.taxType,
-        country: enquiry.country,
-        state: enquiry.state,
-        base_amount: baseAmount,
-        gst_amount: gstAmount,
-        total_amount: totalAmount,
-        items: items.map(it => ({
-          service_id: it.serviceId,
-          sub_service_id: it.subServiceId || null,
-          service_name: it.serviceName,
-          sub_service_name: it.subServiceName,
-          hsn_code: it.hsnCode,
-          quantity: it.quantity,
-          base_price: it.basePrice,
-          gst_rate: it.gstRate,
-          gst_amount: it.gstAmount,
-          total_price: it.totalPrice,
-        })),
-      });
-    }
+    const quoteData = await api.createQuotation({
+      enquiry_id: enquiryId,
+      quote_number: generateQuoteNumber('QT'),
+      company_name: enquiry.companyName,
+      contact_name: enquiry.contactName,
+      email: enquiry.email,
+      mobile_number: enquiry.mobileNumber,
+      website: enquiry.website,
+      company_address: enquiry.companyAddress,
+      gst_number: enquiry.gstNumber,
+      gst_slab: enquiry.gstSlab,
+      tax_type: enquiry.taxType,
+      country: enquiry.country,
+      state: enquiry.state,
+      base_amount: baseAmount,
+      gst_amount: gstAmount,
+      total_amount: totalAmount,
+      items: items.map(it => ({
+        service_id: it.serviceId,
+        sub_service_id: it.subServiceId || null,
+        service_name: it.serviceName,
+        sub_service_name: it.subServiceName,
+        hsn_code: it.hsnCode,
+        quantity: it.quantity,
+        base_price: it.basePrice,
+        gst_rate: it.gstRate,
+        gst_amount: it.gstAmount,
+        total_price: it.totalPrice,
+      })),
+    });
 
     await updateEnquiry(enquiryId, { convertedToQuote: true });
 
@@ -603,9 +578,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       }));
     }
 
-    if (!isUnlocked) {
-      await api.updateQuotation(id, updateData);
-    }
+    await api.updateQuotation(id, updateData);
     setState(prev => ({
       ...prev,
       quotations: prev.quotations.map(q => q.id === id ? {
@@ -636,70 +609,40 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const addOrder = async (quotationId: string, poFile?: string, poFileName?: string): Promise<Order> => {
     const quotation = state.quotations.find(q => q.id === quotationId)!;
 
-    let orderData;
-    if (isUnlocked) {
-      orderData = {
-        id: generateId(),
-        quotation_id: quotationId,
-        order_number: generateOrderNumber(),
-        date: new Date().toISOString().split('T')[0],
-        company_name: quotation.companyName,
-        contact_name: quotation.contactName,
-        poc_name: quotation.contactName,
-        email: quotation.email,
-        mobile_number: quotation.mobileNumber,
-        website: quotation.website || '',
-        company_address: quotation.companyAddress,
-        gst_number: quotation.gstNumber,
-        gst_slab: quotation.gstSlab,
-        tax_type: quotation.taxType,
-        country: quotation.country,
-        state: quotation.state,
-        total_amount: quotation.totalAmount,
-        base_amount: quotation.baseAmount,
-        gst_amount: quotation.gstAmount,
-        pending_amount: quotation.totalAmount,
-        po_file: poFile || '',
-        po_file_name: poFileName || '',
-        status: 'active',
-        created_at: new Date().toISOString(),
-      };
-    } else {
-      orderData = await api.createOrder({
-        quotation_id: quotationId,
-        order_number: generateOrderNumber(),
-        company_name: quotation.companyName,
-        contact_name: quotation.contactName,
-        poc_name: quotation.contactName,
-        email: quotation.email,
-        mobile_number: quotation.mobileNumber,
-        website: quotation.website || '',
-        company_address: quotation.companyAddress,
-        gst_number: quotation.gstNumber,
-        gst_slab: quotation.gstSlab,
-        tax_type: quotation.taxType,
-        country: quotation.country,
-        state: quotation.state,
-        total_amount: quotation.totalAmount,
-        base_amount: quotation.baseAmount,
-        gst_amount: quotation.gstAmount,
-        pending_amount: quotation.totalAmount,
-        po_file: poFile || '',
-        po_file_name: poFileName || '',
-        services: quotation.items.map(item => ({
-          service_id: item.serviceId,
-          sub_service_id: item.subServiceId || null,
-          service_name: item.serviceName,
-          sub_service_name: item.subServiceName,
-          hsn_code: item.hsnCode,
-          quantity: item.quantity,
-          base_price: item.basePrice,
-          gst_rate: item.gstRate,
-          gst_amount: item.gstAmount,
-          total_price: item.totalPrice,
-        })),
-      });
-    }
+    const orderData = await api.createOrder({
+      quotation_id: quotationId,
+      order_number: generateOrderNumber(),
+      company_name: quotation.companyName,
+      contact_name: quotation.contactName,
+      poc_name: quotation.contactName,
+      email: quotation.email,
+      mobile_number: quotation.mobileNumber,
+      website: quotation.website || '',
+      company_address: quotation.companyAddress,
+      gst_number: quotation.gstNumber,
+      gst_slab: quotation.gstSlab,
+      tax_type: quotation.taxType,
+      country: quotation.country,
+      state: quotation.state,
+      total_amount: quotation.totalAmount,
+      base_amount: quotation.baseAmount,
+      gst_amount: quotation.gstAmount,
+      pending_amount: quotation.totalAmount,
+      po_file: poFile || '',
+      po_file_name: poFileName || '',
+      services: quotation.items.map(item => ({
+        service_id: item.serviceId,
+        sub_service_id: item.subServiceId || null,
+        service_name: item.serviceName,
+        sub_service_name: item.subServiceName,
+        hsn_code: item.hsnCode,
+        quantity: item.quantity,
+        base_price: item.basePrice,
+        gst_rate: item.gstRate,
+        gst_amount: item.gstAmount,
+        total_price: item.totalPrice,
+      })),
+    });
 
     const services: OrderService[] = quotation.items.map(item => ({
       id: generateId(),
@@ -795,9 +738,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       }));
     }
 
-    if (!isUnlocked) {
-      await api.updateOrder(id, updateData);
-    }
+    await api.updateOrder(id, updateData);
     setState(prev => ({
       ...prev,
       orders: prev.orders.map(o => o.id === id ? { ...o, ...data } : o),
@@ -809,12 +750,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (!order) return;
 
     const version = `T${(order.payments.length + 1).toString().padStart(3, '0')}`;
-    let paymentData;
-    if (isUnlocked) {
-      paymentData = { id: generateId(), order_id: orderId, amount, type, version, notes, date: new Date().toISOString().split('T')[0] };
-    } else {
-      paymentData = await api.createPayment(orderId, { amount, type, version, notes });
-    }
+    const paymentData = await api.createPayment(orderId, { amount, type, version, notes });
     const payment = paymentData;
 
     const newPaidAmount = order.paidAmount + amount;
